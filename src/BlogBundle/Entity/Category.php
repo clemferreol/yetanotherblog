@@ -30,7 +30,7 @@ class Category
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="category", cascade={"persist", "remove"})
      */
    private $posts;
 

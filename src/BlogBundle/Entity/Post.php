@@ -36,7 +36,7 @@ class Post
     private $content;
 
     /**
-    * @ORM\OneToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
+    * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="posts")
     */
     private $author;
 
@@ -48,9 +48,30 @@ class Post
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="post")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="post", cascade={"persist"})
      */
     private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="posts", cascade={"persist", "remove"})
+     */
+   private $comments;
+
+   public function __construct()
+   {
+       $this->comments = new ArrayCollection();
+       $this->setTitle('');
+   }
+
+   public function getComments()
+   {
+       return $this->comments;
+   }
+
+   public function __toString()
+   {
+       return $this->getTitle();
+   }
 
     public function setCategory(Category $category)
     {
